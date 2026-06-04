@@ -34,7 +34,7 @@ def load_subject(subject_id: str) -> pd.DataFrame:
         if merged is None:
             merged = df
         else:
-            merged = merged.merge(df, on="timestamp", how="inner")
+            merged = merged.merge(df, on="timestamp", how="left")
     label_path = os.path.join(LABEL_DIR, f"{subject_id}.csv")
     label_df = pd.read_csv(label_path)[["timestamp", "value"]].rename(columns={"value": "label"})
     merged = merged.merge(label_df, on="timestamp", how="left")

@@ -226,10 +226,19 @@ screenshot or include in a report.
 
 ## What I found that matters for modelling
 
+<<<<<<< HEAD
 - No single feature predicts arousal linearly (|r| < 0.15 across the board) — need a multivariate approach
 - BPM mean/median/mode are almost identical to each other — could drop two of the three without losing much
 - ECG_mode behaves differently from ECG_mean/median — worth keeping separately
 - resp_mode has very high variance — may need extra attention or could act as noise
 - Inter-subject EDA baselines vary enormously — a model that learns subject-specific offsets will have an advantage
 - Train and devel distributions are statistically different (KS test) — standard cross-subject generalisation challenge
+=======
+- No single feature predicts arousal linearly (|r| < 0.15 across the board) — need multivariate approach
+- BPM mean/median/mode are almost identical — could drop two of the three without losing much
+- ECG_mode behaves differently from ECG_mean/median — worth keeping separately
+- resp_mode has very high variance — may need extra attention or could act as noise
+- Inter-subject EDA baselines vary enormously — a model that learns subject-specific offsets will have an advantage
+- Train and devel distributions are statistically different (KS test) — standard generalisation challenge
+>>>>>>> 6cc8fbd (Adding updated EDA with Readme)
 - Outlier rate is low and confined to ECG and resp — no data quality issues
