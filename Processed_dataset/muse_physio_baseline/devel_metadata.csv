@@ -1,0 +1,15 @@
+participant_id,split,sample_id,mode,row_start,row_end_exclusive,sequence_length,timestamp_start,timestamp_end,segment_id_start,segment_id_end,crosses_segment_boundary,padded_length,padding_steps,valid_target_steps
+6,devel,0,full_sequence,0,602,602,500,301000,1,27,True,628,26,602
+7,devel,0,full_sequence,0,620,620,500,310000,1,51,True,628,8,620
+14,devel,0,full_sequence,0,628,628,500,314000,1,35,True,628,0,628
+19,devel,0,full_sequence,0,600,600,500,300000,1,48,True,628,28,600
+21,devel,0,full_sequence,0,620,620,500,310000,1,47,True,628,8,620
+22,devel,0,full_sequence,0,570,570,500,285000,1,45,True,628,58,570
+26,devel,0,full_sequence,0,600,600,500,300000,1,32,True,628,28,600
+27,devel,0,full_sequence,0,626,626,500,313000,1,49,True,628,2,626
+34,devel,0,full_sequence,0,622,622,500,311000,1,41,True,628,6,622
+45,devel,0,full_sequence,0,600,600,500,300000,1,40,True,628,28,600
+51,devel,0,full_sequence,0,600,600,500,300000,1,40,True,628,28,600
+55,devel,0,full_sequence,0,618,618,500,309000,1,24,True,628,10,618
+57,devel,0,full_sequence,0,596,596,500,298000,1,52,True,628,32,596
+70,devel,0,full_sequence,0,598,598,500,299000,1,41,True,628,30,598

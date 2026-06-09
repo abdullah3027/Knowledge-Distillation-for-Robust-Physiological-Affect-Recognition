@@ -1,0 +1,83 @@
+{
+  "generated_at_utc": "2026-06-07T14:31:36.172326+00:00",
+  "config_path": "C:\\Users\\Victus\\Documents\\GitHub\\Knowledge-Distillation-for-Robust-Physiological-Affect-Recognition\\configs\\muse_physio_baseline.yaml",
+  "dataset_root": "C:\\Users\\Victus\\Documents\\GitHub\\Knowledge-Distillation-for-Robust-Physiological-Affect-Recognition\\Original_dataset\\MuSe-Physio Multimodal Physiological-Arousal (MuSe2021)\\c4_muse_physio\\c4_muse_physio",
+  "modalities": [
+    "BPM",
+    "ECG",
+    "RESP"
+  ],
+  "target": "anno12_EDA",
+  "windowing": {
+    "train_mode": "sliding",
+    "evaluation_mode": "full_sequence",
+    "window_len": 300,
+    "hop_len": 50,
+    "sampling_rate_hz": 2,
+    "target_mode": "full_sequence",
+    "respect_segment_boundaries": false,
+    "include_incomplete_train_window": true
+  },
+  "normalization": {
+    "enabled": true,
+    "fit_split": "train",
+    "unique_frames_used": 24712
+  },
+  "mask_semantics": {
+    "padding_mask": "True means padded/ignored timestep",
+    "target_mask": "True means target is available and may contribute to loss"
+  },
+  "splits": {
+    "train": {
+      "participants": 41,
+      "samples": 301,
+      "x_shape": [
+        301,
+        300,
+        3
+      ],
+      "y_shape": [
+        301,
+        300,
+        1
+      ],
+      "padding_steps": 588,
+      "valid_target_steps": 89712,
+      "windows_crossing_segment_boundary": 301
+    },
+    "devel": {
+      "participants": 14,
+      "samples": 14,
+      "x_shape": [
+        14,
+        628,
+        3
+      ],
+      "y_shape": [
+        14,
+        628,
+        1
+      ],
+      "padding_steps": 292,
+      "valid_target_steps": 8500,
+      "windows_crossing_segment_boundary": 14
+    },
+    "test": {
+      "participants": 14,
+      "samples": 14,
+      "x_shape": [
+        14,
+        748,
+        3
+      ],
+      "y_shape": [
+        14,
+        748,
+        1
+      ],
+      "padding_steps": 1990,
+      "valid_target_steps": 0,
+      "windows_crossing_segment_boundary": 14
+    }
+  }
+}

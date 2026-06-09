@@ -1,0 +1,15 @@
+participant_id,split,sample_id,mode,row_start,row_end_exclusive,sequence_length,timestamp_start,timestamp_end,segment_id_start,segment_id_end,crosses_segment_boundary,padded_length,padding_steps,valid_target_steps
+2,test,0,full_sequence,0,606,606,500,303000,1,51,True,748,142,0
+3,test,0,full_sequence,0,610,610,500,305000,1,30,True,748,138,0
+13,test,0,full_sequence,0,542,542,500,271000,1,26,True,748,206,0
+15,test,0,full_sequence,0,594,594,500,297000,1,43,True,748,154,0
+17,test,0,full_sequence,0,590,590,500,295000,1,38,True,748,158,0
+37,test,0,full_sequence,0,748,748,500,374000,1,47,True,748,0,0
+39,test,0,full_sequence,0,598,598,500,299000,1,39,True,748,150,0
+40,test,0,full_sequence,0,602,602,500,301000,1,45,True,748,146,0
+41,test,0,full_sequence,0,596,596,500,298000,1,41,True,748,152,0
+54,test,0,full_sequence,0,598,598,500,299000,1,25,True,748,150,0
+56,test,0,full_sequence,0,594,594,500,297000,1,30,True,748,154,0
+61,test,0,full_sequence,0,598,598,500,299000,1,49,True,748,150,0
+64,test,0,full_sequence,0,610,610,500,305000,1,47,True,748,138,0
+67,test,0,full_sequence,0,596,596,500,298000,1,43,True,748,152,0
