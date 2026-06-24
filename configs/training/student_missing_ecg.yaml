@@ -1,0 +1,46 @@
+experiment_name: "student_missing_ecg"
+seed: 42
+device: "auto"
+
+data:
+  processed_dir: "Processed_dataset/muse_physio_baseline"
+  train_batch_size: 32
+  evaluation_batch_size: 8
+  num_workers: 0
+
+student_input:
+  mode: "select"
+  available_modalities:
+    - BPM
+    - RESP
+
+model:
+  architecture: "encoder_only_time_series_transformer"
+  input_dim: 2
+  d_model: 64
+  num_heads: 2
+  num_layers: 2
+  dim_feedforward: 128
+  dropout: 0.1
+  activation: "gelu"
+  norm_first: true
+  max_sequence_length: 1024
+
+loss:
+  ccc_weight: 1.0
+  mse_weight: 0.1
+
+optimizer:
+  learning_rate: 1.0e-4
+  weight_decay: 1.0e-4
+
+scheduler:
+  factor: 0.5
+  patience: 5
+  min_learning_rate: 1.0e-6
+
+training:
+  epochs: 200
+  early_stopping_patience: 30
+  gradient_clip_norm: 1.0
+  output_dir: "outputs/student_missing_ecg"
