@@ -1,0 +1,54 @@
+dataset:
+  root: "Original_dataset/MuSe-Physio Multimodal Physiological-Arousal (MuSe2021)/c4_muse_physio/c4_muse_physio"
+  partition_file: "metadata/partition.csv"
+  feature_segments_dir: "feature_segments"
+  label_segments_dir: "label_segments"
+  participant_column: "Id"
+  split_column: "Proposal"
+  timestamp_column: "timestamp"
+  segment_column: "segment_id"
+  expected_splits:
+    - "train"
+    - "devel"
+    - "test"
+
+modalities:
+  - name: "BPM"
+    folder: "BPM"
+    column: "BPM"
+  - name: "ECG"
+    folder: "ECG"
+    column: "ECG"
+  - name: "RESP"
+    folder: "resp"
+    column: "resp"
+
+target:
+  name: "anno12_EDA"
+  folder: "anno12_EDA"
+  column: "value"
+
+windowing:
+  train_mode: "sliding"
+  evaluation_mode: "full_sequence"
+  window_len: 300
+  hop_len: 50
+  sampling_rate_hz: 2
+  target_mode: "full_sequence"
+  respect_segment_boundaries: false
+  include_incomplete_train_window: true
+
+normalization:
+  features:
+    enabled: true
+    fit_split: "train"
+    epsilon: 1.0e-8
+
+output:
+  dir: "Processed_dataset/muse_physio_baseline"
+  dtype: "float32"
+  feature_padding_value: 0.0
+  target_padding_value: 0.0
+  timestamp_padding_value: -1
+  segment_padding_value: -1
+  overwrite: true

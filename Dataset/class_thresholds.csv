@@ -1,3 +1,0 @@
-threshold,value,method,reference
-p33 (Low/Medium boundary),-0.279664,33rd percentile of train label_mean,"Wiem & Lachiri, IJACSA 2017 | Sanchez-Reolid et al., Sensors 2022"
-p66 (Medium/High boundary),0.036967,66th percentile of train label_mean,"Wiem & Lachiri, IJACSA 2017 | Sanchez-Reolid et al., Sensors 2022"
