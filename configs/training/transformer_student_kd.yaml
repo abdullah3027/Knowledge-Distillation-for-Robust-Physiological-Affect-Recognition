@@ -23,8 +23,7 @@ model:
 
 distillation:
   supervised_weight: 1.0
-  output_weight: 0.5
-  feature_weight: 0.1
+  relation_weight: 0.1
   ccc_weight: 1.0
   mse_weight: 0.1
   layer_pairs:

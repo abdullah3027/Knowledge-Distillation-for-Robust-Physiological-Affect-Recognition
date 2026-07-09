@@ -12,7 +12,7 @@ sys.path.insert(0, str(REPO_ROOT / "src"))
 
 from muse_physio.data import create_dataloader, load_manifest
 from muse_physio.modalities import resolve_modality_selection, validate_model_input_dim
-from muse_physio.model import TimeSeriesTransformer
+from muse_physio.model import TimeSeriesTransformer, count_trainable_parameters
 from muse_physio.training import (
     evaluate_regression,
     load_yaml,
@@ -78,6 +78,8 @@ def run(
     )
 
     model = TimeSeriesTransformer.from_config(config["model"]).to(device)
+    model_parameter_count = count_trainable_parameters(model)
+    print(f"Model parameters: {model_parameter_count:,}")
     optimizer_config = config["optimizer"]
     optimizer = torch.optim.AdamW(
         model.parameters(),
@@ -143,6 +145,7 @@ def run(
                 {
                     "model_state": model.state_dict(),
                     "model_config": config["model"],
+                    "model_parameter_count": model_parameter_count,
                     "training_config": config,
                     "model_input": input_selection.to_config(),
                     "manifest": manifest,

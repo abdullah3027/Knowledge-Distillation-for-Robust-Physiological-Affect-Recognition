@@ -1,0 +1,49 @@
+experiment_name: medium_tuned_missing_ecg_kd_rw5_mse1
+seed: 42
+device: auto
+teacher_checkpoint: outputs/ablations/model_size_full_modalities/medium/teacher/best.pt
+data:
+  processed_dir: Processed_dataset/muse_physio_baseline
+  train_batch_size: 16
+  evaluation_batch_size: 4
+  num_workers: 0
+student_input:
+  mode: select
+  available_modalities:
+  - BPM
+  - RESP
+model:
+  architecture: encoder_only_time_series_transformer
+  input_dim: 2
+  d_model: 80
+  num_heads: 2
+  num_layers: 3
+  dim_feedforward: 240
+  dropout: 0.1
+  activation: gelu
+  norm_first: true
+  max_sequence_length: 1024
+distillation:
+  supervised_weight: 1.0
+  relation_weight: 5.0
+  ccc_weight: 1.0
+  mse_weight: 1.0
+  layer_pairs:
+  - - 0
+    - 0
+  - - 1
+    - 2
+  - - 2
+    - 3
+optimizer:
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+scheduler:
+  factor: 0.5
+  patience: 5
+  min_learning_rate: 1.0e-06
+training:
+  epochs: 100
+  early_stopping_patience: 15
+  gradient_clip_norm: 1.0
+  output_dir: outputs/ablations/medium_tuned_missing_modalities/missing_ecg/kd_rw5_mse1

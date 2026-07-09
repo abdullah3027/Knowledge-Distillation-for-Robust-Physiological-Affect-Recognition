@@ -69,6 +69,16 @@ def masked_relation_mse(
     return torch.mean(difference**2)
 
 
+def resolve_distillation_weights(config: dict[str, Any]) -> dict[str, float]:
+    """Resolve the weights used by the current relational-KD objective."""
+    return {
+        "supervised_weight": float(config.get("supervised_weight", 1.0)),
+        "relation_weight": float(config.get("relation_weight", 0.1)),
+        "ccc_weight": float(config.get("ccc_weight", 1.0)),
+        "mse_weight": float(config.get("mse_weight", 0.0)),
+    }
+
+
 def distillation_loss(
     wrapper: DistillationStudent,
     teacher: TimeSeriesTransformer,
@@ -91,12 +101,13 @@ def distillation_loss(
             return_hidden_states=True,
         )
 
+    weights = resolve_distillation_weights(config)
     supervised, supervised_parts = supervised_loss(
         student_prediction,
         batch["y"],
         batch["target_mask"],
-        ccc_weight=float(config.get("ccc_weight", 1.0)),
-        mse_weight=float(config.get("mse_weight", 0.0)),
+        ccc_weight=weights["ccc_weight"],
+        mse_weight=weights["mse_weight"],
     )
 
     relation_losses: list[torch.Tensor] = []
@@ -116,12 +127,14 @@ def distillation_loss(
         if relation_losses
         else student_prediction.new_zeros(())
     )
-    total = (
-        float(config.get("supervised_weight", 1.0)) * supervised
-        + float(config.get("relation_weight", 0.1)) * relation_loss
-    )
+    weighted_supervised_loss = weights["supervised_weight"] * supervised
+    weighted_relation_loss = weights["relation_weight"] * relation_loss
+    total = weighted_supervised_loss + weighted_relation_loss
     return total, {
         **supervised_parts,
         "supervised_loss": float(supervised.detach()),
+        "weighted_supervised_loss": float(weighted_supervised_loss.detach()),
         "relation_distillation_loss": float(relation_loss.detach()),
+        "weighted_relation_distillation_loss": float(weighted_relation_loss.detach()),
+        **weights,
     }

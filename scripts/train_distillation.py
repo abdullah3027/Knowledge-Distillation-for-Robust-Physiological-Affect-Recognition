@@ -11,9 +11,13 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
 from muse_physio.data import create_dataloader, load_manifest
-from muse_physio.distillation import DistillationStudent, distillation_loss
+from muse_physio.distillation import (
+    DistillationStudent,
+    distillation_loss,
+    resolve_distillation_weights,
+)
 from muse_physio.modalities import resolve_modality_selection, validate_model_input_dim
-from muse_physio.model import TimeSeriesTransformer
+from muse_physio.model import TimeSeriesTransformer, count_trainable_parameters
 from muse_physio.training import (
     evaluate_regression,
     load_yaml,
@@ -44,6 +48,12 @@ def train_distillation_epoch(
         "ccc_loss",
         "mse_loss",
         "relation_distillation_loss",
+        "weighted_supervised_loss",
+        "weighted_relation_distillation_loss",
+        "supervised_weight",
+        "relation_weight",
+        "ccc_weight",
+        "mse_weight",
     ]
     totals = {key: 0.0 for key in keys}
     total_steps = 0
@@ -110,6 +120,16 @@ def run(
         parameter.requires_grad = False
 
     student = TimeSeriesTransformer.from_config(config["model"]).to(device)
+    student_parameter_count = count_trainable_parameters(student)
+    distillation_weights = resolve_distillation_weights(config["distillation"])
+    print(
+        "Student parameters: "
+        f"{student_parameter_count:,} "
+        f"(supervised_weight={distillation_weights['supervised_weight']}, "
+        f"relation_weight={distillation_weights['relation_weight']}, "
+        f"ccc_weight={distillation_weights['ccc_weight']}, "
+        f"mse_weight={distillation_weights['mse_weight']})"
+    )
     layer_pairs = config["distillation"]["layer_pairs"]
     wrapper = DistillationStudent(
         student,
@@ -213,6 +233,8 @@ def run(
                 {
                     "model_state": wrapper.student.state_dict(),
                     "model_config": config["model"],
+                    "model_parameter_count": student_parameter_count,
+                    "distillation_weights": distillation_weights,
                     "training_config": config,
                     "teacher_checkpoint": str(teacher_path),
                     "model_input": student_input_selection.to_config(),

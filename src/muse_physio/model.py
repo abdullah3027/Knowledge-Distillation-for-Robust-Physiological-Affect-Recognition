@@ -116,3 +116,18 @@ class TimeSeriesTransformer(nn.Module):
             activation=str(config.get("activation", "gelu")),
             norm_first=bool(config.get("norm_first", True)),
         )
+
+
+def count_trainable_parameters(model: nn.Module) -> int:
+    return int(
+        sum(
+            parameter.numel()
+            for parameter in model.parameters()
+            if parameter.requires_grad
+        )
+    )
+
+
+def count_parameters_from_config(config: dict[str, Any]) -> int:
+    model = TimeSeriesTransformer.from_config(config)
+    return count_trainable_parameters(model)
